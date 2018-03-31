@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang='ru'>
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+        <title>Flask App</title>
+	</head>
+	<body>
+        <div id="root"></div>
+		{% assets "js_all" %}
+		<script type="text/javascript" src="{{ASSET_URL}}"></script>
+		{% endassets %}
+	    	<!--<h1>Замена ФИО</h1>-->
+	    	<!--<form method="post" id="form">-->
+	    		<!--<label for="inp">Введите ФИО : </label>-->
+	    		<!--<input type="text" id="inp" name="inputText" autofocus autocomplete="off">-->
+	    		<!--<button>Обработать!</button>-->
+	    	<!--</form>-->
+	    	<!--<p id="process"></p>-->
+	    	<!--<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>-->
+	    	<!--<script>-->
+	    		<!--$('#launch').click(function(e){-->
+	    		    <!--console.log("Olle!");-->
+	    			<!--var inputText = $('#inp').val();-->
+                    <!--console.log(inputText);-->
+	    			<!--e.preventDefault();-->
+	    			<!--$.ajax({-->
+	    				<!--url: 'http://127.0.0.1:5000/process',-->
+	    				<!--data: {'inputText': inputText},-->
+	    				<!--method: 'POST',-->
+	    				<!--success: function(data) {-->
+	    					<!--$('#inp').val('');-->
+	    					<!--$('#process').html('Результат обработки: ' + data['outputText'])-->
+	    				<!--}-->
+	    			<!--});-->
+	    		<!--});-->
+	    	<!--</script>-->
+	</body>
+</html>
