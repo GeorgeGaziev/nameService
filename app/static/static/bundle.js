@@ -26131,14 +26131,11 @@ var App = function (_Component) {
             console.log("inputText from page: " + inputText);
             _jquery2.default.ajax({
                 url: 'http://127.0.0.1:5000/process',
-                data: { 'inputText': encodeURIComponent(inputText) },
+                data: { 'inputData': inputText },
                 method: 'POST',
-                contentType: 'application/json;charset=windows-1251',
                 success: function success(data) {
                     console.log(data);
-                    (0, _jquery2.default)('#inputText').val('');
                     (0, _jquery2.default)('#outputText').val(data['outputText']);
-                    //$('#process').html('Результат обработки: ' + data['outputText'])
                 }
             });
         }
@@ -26153,8 +26150,7 @@ var App = function (_Component) {
                     margin: 'normal',
                     multiline: true,
                     rowsMax: '4',
-                    defaultValue: "Работает само по себе",
-                    label: "Ввод"
+                    label: '\u0412\u0432\u043E\u0434'
                 }),
                 _react2.default.createElement(
                     _Button2.default,
@@ -26169,7 +26165,7 @@ var App = function (_Component) {
                     margin: 'normal',
                     multiline: true,
                     rowsMax: '4',
-                    defaultValue: "Работает само по себе",
+                    defaultValue: '\u0417\u0434\u0435\u0441\u044C \u0431\u0443\u0434\u0435\u0442 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442 \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0438',
                     label: "Вывод"
                 })
             );

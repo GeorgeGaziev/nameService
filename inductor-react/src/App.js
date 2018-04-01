@@ -12,14 +12,11 @@ class App extends Component {
         console.log("inputText from page: " + inputText);
         $.ajax({
             url: 'http://127.0.0.1:5000/process',
-            data: {'inputText': encodeURIComponent(inputText)},
+            data: {'inputData': inputText},
             method: 'POST',
-            contentType: 'application/json;charset=windows-1251',
             success: function(data) {
                 console.log(data);
-                $('#inputText').val('');
                 $('#outputText').val(data['outputText']);
-                //$('#process').html('Результат обработки: ' + data['outputText'])
             }
         });
     }
@@ -32,8 +29,7 @@ class App extends Component {
                 margin="normal"
                 multiline
                 rowsMax="4"
-                defaultValue={"Работает само по себе"}
-                label={"Ввод"}
+                label="Ввод"
             >
             </TextField>
             <Button
@@ -47,7 +43,7 @@ class App extends Component {
               margin="normal"
               multiline
               rowsMax="4"
-              defaultValue={"Работает само по себе"}
+              defaultValue="Здесь будет результат обработки"
               label={"Вывод"}
           >
           </TextField>
