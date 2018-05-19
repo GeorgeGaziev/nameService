@@ -43,7 +43,7 @@ def process():
         3: ["Слово не найдено", (255, 0, 0)],  # red
         4: ["Сокращение имени", (255, 165, 0)], # orange
         5: ["Несоответствие пола", (255, 165, 0)],  # orange
-        6: ["Возникло несколько ошибок", (255, 0, 0)]
+        6: ["Возникло несколько ошибок", (255, 0, 0)] # red
     }
 
     RowCounter = 2
@@ -950,9 +950,3 @@ def NotBruteAtAll(imput):
             qualityFlag.remove(qualityZero)
         res.append([output, qualityFlag])
     return res
-
-
-# # In[61]:
-#
-#
-
