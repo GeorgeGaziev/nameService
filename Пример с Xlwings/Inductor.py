@@ -27,8 +27,12 @@ def process():
     currentSheet.range('A1').value = "Данные обрабатываются..."
     currentSheet.autofit()
 
-    newData = NotBruteAtAll(data.value)
+    if type(data.value)!= list:
+        dataNew = [data.value]
+    else:
+        dataNew = data.value
 
+    newData = NotBruteAtAll(dataNew)
     currentSheet.clear()
 
     # 0 = все отлично, 1 = что-то поменяли, 2 = слишком редкое слово, 3 = странный пол, 4 = слова нет в базах."
@@ -42,9 +46,20 @@ def process():
         6: ["Возникло несколько ошибок", (255, 0, 0)]
     }
 
-    RowCounter = 1
-    for result in newData:
+    RowCounter = 2
+    currentSheet.range('A' + str(1)).value = "ФИО исходное"
+    currentSheet.range('B' + str(1)).value = "ФИО исправленное"
+    currentSheet.range('C' + str(1)).value = "Пол"
+    currentSheet.range('D' + str(1)).value = "Ошибки"
+    currentSheet.range('E' + str(1)).value = "Комментарии"
+    currentSheet.range('A' + str(1)).color = (211, 211, 211)
+    currentSheet.range('B' + str(1)).color = (211, 211, 211)
+    currentSheet.range('C' + str(1)).color = (211, 211, 211)
+    currentSheet.range('D' + str(1)).color = (211, 211, 211)
+    currentSheet.range('E' + str(1)).color = (211, 211, 211)
+    #currentSheet.range('F' + str(1)).value = str(type(newData[0][0][0]))
 
+    for result in newData:
         marker = []
 
         for res in result[1]:
@@ -53,32 +68,35 @@ def process():
             else:
                 marker.append(res[0])
 
-        currentSheet.range('A' + str(RowCounter)).value = result[0]
+        currentSheet.range('A' + str(RowCounter)).value = dataNew[RowCounter-2]
+        currentSheet.range('B' + str(RowCounter)).value = result[0][0]
+        currentSheet.range('C' + str(RowCounter)).value = result[0][1]
         if len(marker) == 1:
             # один результат
-            currentSheet.range('B' + str(RowCounter)).color = markerInfo[marker[0]][1]
-            currentSheet.range('B' + str(RowCounter)).value = markerInfo[marker[0]][0]
-            if marker[0] == 1:
-                currentSheet.range('C' + str(RowCounter)).value = "\"" + result[1][0][1].title() + "\" на \"" + result[1][0][2].title() + "\""
+            currentSheet.range('D' + str(RowCounter)).color = markerInfo[marker[0]][1]
+            currentSheet.range('D' + str(RowCounter)).value = markerInfo[marker[0]][0]
+            if marker[0] == 1 or marker[0] == 4:
+                currentSheet.range('E' + str(RowCounter)).value = "\"" + result[1][0][1].title() + "\" на \"" + result[1][0][2].title() + "\""
             else:
-                currentSheet.range('C' + str(RowCounter)).value = result[1][0][1].title()
+                currentSheet.range('E' + str(RowCounter)).value = result[1][0][1].title()
 
         else:
             # несколько результатов
-            currentSheet.range('B' + str(RowCounter)).color = markerInfo[5][1]
-            currentSheet.range('B' + str(RowCounter)).value = markerInfo[5][0]
+            currentSheet.range('D' + str(RowCounter)).color = markerInfo[6][1]
+            currentSheet.range('D' + str(RowCounter)).value = markerInfo[6][0]
             info = ""
             for res in result[1]:
-                if res[0] == 1:
-                    info = info + markerInfo[res[0]][0] + ": \"" + res[1].title() + "\" на \"" + res[2].title() + "\";"
-                elif res[0] == 3:
-                    info = info + markerInfo[res[0]][0] + ";"
+                if res[0] == 1 or res[0] == 4:
+                    info = info + markerInfo[res[0]][0] + ": \"" + res[1].title() + "\" на \"" + res[2].title() + "\"; "
+                elif res[0] == 2 or res[0] == 3:
+                    info = info + markerInfo[res[0]][0] + ": \"" + res[1].title() + "\"; "
+                elif res[0] == 5:
+                    info = info + markerInfo[res[0]][0] + "; "
                 else:
-                    info = info + markerInfo[res[0]][0] + ": "+ res[1].title() + ";"
-            currentSheet.range('C' + str(RowCounter)).value = info
+                    info = info + markerInfo[res[0]][0] + ": "+ res[1].title() + "; "
+            currentSheet.range('E' + str(RowCounter)).value = info
         RowCounter += 1
     currentSheet.autofit()
-
 
 # coding: utf-8
 
@@ -862,7 +880,7 @@ def WordsProcessing(line):
         for res in result[order[i]]:
             if res in bases[order[i]]:
                 if (bases[order[i]][res]["probability"] < qualityCheck):
-                    qualityFlag.append([2, ""])  # редкое слово
+                    qualityFlag.append([2, res])  # редкое слово
             else:
                 qualityFlag.append([3, res])  # слово которого нет в базах
 
@@ -907,6 +925,8 @@ def FixYoForm(result):
 
 def NotBruteAtAll(imput):
     res = []
+    # if type(imput) != list:
+    #     imput = [imput]
     for line in imput:
 
         result, order, qualityFlag = WordsProcessing(line)
@@ -935,5 +955,4 @@ def NotBruteAtAll(imput):
 # # In[61]:
 #
 #
-temp = ["сидоров георгий алексееви"]
-print(NotBruteAtAll(temp))
+
